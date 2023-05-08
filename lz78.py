@@ -1,5 +1,5 @@
-from sys import argv
 from trie import Trie
+
 
 def compress(input, output):
     """Create a file with a compressed version of an input text using LZ78."""
@@ -29,7 +29,6 @@ def compress(input, output):
         # define number of bytes necessary to represent all characters
         char_size = char_size + 7
         char_size -= (char_size % 8)
-        print( code_size, char_size)
         # write the code and character size to output file
         coded_code_size = str(bin(code_size)[2:]).rjust(8, '0')
         coded_char_size = str(bin(char_size)[2:]).rjust(8, '0')
@@ -39,50 +38,6 @@ def compress(input, output):
             coded_code = tuple[0].rjust(code_size, '0')
             coded_char = tuple[1].rjust(char_size, '0')
             write_bin(outf, coded_code + coded_char)
-            
-
-# def decompress(input, output):
-#     """Create a file by decompressing an input file using LZ78."""
-#     dictionary = {0 : ''}
-#     count = 0 
-
-#     with open(input, 'rb') as inf, open(output, 'w') as outf:
-#         # read code and character size
-#         code_size = ord((inf.read(1)).decode('latin-1'))
-#         char_size = ord((inf.read(1)).decode('latin-1'))
-#         print(code_size, char_size)
-#         while True:
-#             # read code (node key on the dictionary)
-#             byte = inf.read(1)
-#             # check eof
-#             if not byte:
-#                 break
-#             byte = ord(byte.decode('latin-1'))
-#             code = byte 
-#             for i in range(code_size // 8 - 1):
-#                 byte = inf.read(1)
-#                 byte = ord(byte.decode('latin-1'))
-#                 # convert code from binary to integer
-#                 code = (code << 8) + byte
-#             # read character to append
-#             byte = inf.read(1)
-#             # decode character
-#             byte = ord(byte.decode('latin-1'))
-#             char = byte
-#             for i in range(char_size // 8 - 1):
-#                 byte = inf.read(1)
-#                 byte = ord(byte.decode('latin-1'))
-#                 # convert character from binary to integer
-#                 char = (char << 8) + byte
-#             # convert integer into a unicode character
-#             char = chr(char) 
-
-#             # insert decoded word in the dictionary
-#             str = dictionary[int(code)] + char
-#             count += 1
-#             dictionary[count] = str
-#             # print decoded word in the output file
-#             outf.write(str)
 
 
 def decompress(input, output):
@@ -93,7 +48,6 @@ def decompress(input, output):
         # read code and character size
         code_size = ord((inf.read(1)).decode('latin-1'))
         char_size = ord((inf.read(1)).decode('latin-1'))
-        print(code_size, char_size)
         while True:
             # read code (node key on the dictionary)
             byte = inf.read(1)
@@ -125,38 +79,6 @@ def decompress(input, output):
             dictionary.insert(str)
             # print decoded word in the output file
             outf.write(str)
-
-# def decompress(input, output):
-#     """Create a file by decompressing an input file using LZ78."""
-#     dictionary = Trie()
-
-#     with open(input, 'rb') as inf, open(output, 'w') as outf:
-#         while True:
-#             # read code (node adress on the dictionary)
-#             byte = inf.read(1)
-#             # check eof
-#             if not byte:
-#                 break
-#             byte = ord(byte.decode('latin-1'))
-#             code = byte 
-#             for i in range(7):
-#                 byte = inf.read(1)
-#                 byte = ord(byte.decode('latin-1'))
-#                 # check eof
-#                 if not byte:
-#                     break
-#                 # convert code into integer
-#                 code = (code << 8) + byte
-#             # read character from file
-#             char = inf.read(1)
-#             # decode character
-#             char = char.decode('latin-1')
-#             # insert decoded word in the dictionary
-#             str = dictionary.search_node(int(code)) + char
-#             dictionary.insert(str)
-#             # print decoded word in the output file
-#             print('Unpacked string: ' + str)
-#             outf.write(str)
 
 
 def find_new_substring(inf, dictionary):
