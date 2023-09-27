@@ -9,7 +9,7 @@ python3 main.py -c [nome do arquivo de entrada] -o <nome do arquivo de saída>
 ```
 ### Decompression
 ```console
-$ python3 main.py -x [nome do arquivo de entrada] -o <nome do arquivo de saída>
+python3 main.py -x [nome do arquivo de entrada] -o <nome do arquivo de saída>
 ```
 
 In both cases indicating the name of the output file is optional.
